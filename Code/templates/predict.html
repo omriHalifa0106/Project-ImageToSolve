@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+      body {
+        background-image: url("static/math1.jpg");
+      }
+    </style>
+</head>
+<body>
+  <h1 style="color: red; font-weight: bold; font-family: 'Comic Sans MS', cursive, sans-serif; margin: auto;width: 80%; text-align: center; text-transform: uppercase"> Project Image-To-Solve: <br></h1>
+  <h3 style="margin-top: 40px,text-align: center;"><b>Handwritten mathematical expressions_recognition </b></h3>
+<div style="width: 90%; margin: auto; text-align: center">
+    <img src="{{ url_for('display_image', filename=image_file_name)}}" style ="max-width: 500px; max-height: 450px; margin-top: 30px; margin-bottom: 10px">
+    <p style="font-style: italic">{{ image_file_name }}</p>
+
+    <h3 style="margin-top: 40px"><b>Predicted Calculation: <span style="color: green">{{ label }}</span></b></h3>
+    <h3><b>Result : <span style="color: green;">{{ accuracy }} </span></b></h3>
+    <h3><a href="/">Back to Home Page</a></h3>
+</div>
+</body>
+</html>

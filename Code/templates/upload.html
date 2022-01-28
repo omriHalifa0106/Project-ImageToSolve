@@ -1,0 +1,126 @@
+<!doctype html>
+<title>ProjectImageToSolve</title>
+<style>
+   body {
+       background-image: url("static/math1.jpg");
+   }
+    </style>
+
+  <h1 style="color: red; font-weight: bold; font-family: 'Comic Sans MS', cursive, sans-serif; margin: auto;width: 80%; text-align: center;margin-top: 220px; text-transform: uppercase"> Project Image-To-Solve: <br></h1>
+  <h2 style="text-align: center;"> Select exercise image to solve</h2>
+{% if filename %}
+	<div>
+		<img src="{{ url_for('display_image', filename=filename) }}">
+	</div>
+{% endif %}
+<div style="width: 90%; margin: auto; text-align: center">
+<form method="post" action="/" enctype="multipart/form-data">
+    <dl>
+		<p>
+			<input type="file" name="file" autocomplete="off" required>
+		</p>
+    </dl>
+    <p>
+		<input type="submit" value="Submit">
+	</p>
+</form>
+</div>
+ <h2 style="text-align: center;"> Or maybe draw, save image and solve</h2>
+<script type="text/javascript">
+    var canvas, ctx, flag = false,
+        prevX = 10,
+        currX = 10,
+        prevY = 100,
+        currY = 100,
+        dot_flag = false;
+
+    var x = "black",
+        y = 2;
+
+    function init() {
+        canvas = document.getElementById('can');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+
+        canvas.addEventListener("mousemove", function (e) {
+            findxy('move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function (e) {
+            findxy('down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function (e) {
+            findxy('up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function (e) {
+            findxy('out', e)
+        }, false);
+    }
+
+
+    function draw() {
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(currX, currY);
+        ctx.strokeStyle = x;
+        ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+
+    function erase() {
+        var m = confirm("Want to clear");
+        if (m) {
+            ctx.clearRect(0, 0, w, h);
+            document.getElementById("canvasimg").style.display = "none";
+        }
+    }
+
+    function  save() {
+    const data = this.canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = 'exercise_draw.png';
+    a.click();
+  }
+
+    function findxy(res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+                draw();
+            }
+        }
+    }
+      document.getElementById('save').onclick = function () {
+    window.location = document.getElementById("canvas").toDataURL('image/png');
+  };
+    </script>
+    <body onload="init()">
+        <canvas id="can" width="1000" height="200" style="position:absolute;top:80%;left:10%;border:2px solid;"></canvas>
+        <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+        <input type="button" value="save" id="save" size="23" onclick="save()" style="position:absolute;top:115%;left:10%;">
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:115%;left:15%;">
+    </body>

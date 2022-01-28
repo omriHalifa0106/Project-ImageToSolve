@@ -1,0 +1,8 @@
+Illegal_expression = "Error: Illegal expression!"
+Illegal_number = "Error: The value is not number!"
+Zero_division = "Error: Division by Zero!"
+Undefined_result = "Error: Result is undefined!"
+Invalid_char = "Error: Invalid char!"
+OverFlow = "Error: The result is too big!"
+EmptyString = "Error: Empty string!"
+Click = "Error: Keyboard Interrupt!"
